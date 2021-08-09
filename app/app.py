@@ -76,9 +76,10 @@ class EventHandler (pyinotify.ProcessEvent):
         
 
 
+path = os.getenv("Logs_Source")
+if(len(path)==0): path = './example_accesss.log'
 
-
-handler = EventHandler('./example_accesss.log')
+handler = EventHandler(path)
 notifier = pyinotify.Notifier(wm, handler)
 
 wm.add_watch(handler.file_path, mask)        

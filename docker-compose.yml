@@ -10,8 +10,6 @@ services:
             - /etc/localtime:/etc/localtime:ro
         ports:
             - 9200:9200
-            - 9300:9300
-            - 9220:9220
 
     logstash:
         image: docker.elastic.co/logstash/logstash:7.14.0
