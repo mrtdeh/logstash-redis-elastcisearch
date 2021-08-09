@@ -18,7 +18,7 @@ This directory contains a docker-compose.yml that will allow you to quickly spin
 
 ### Config
 
-first you must config app for read source by change enviroment variable in ```docker-compose.yml`` to ``` nginx ``` or ``` apache2 ```:
+first you must config app for read source by change enviroment variable in ```docker-compose.yml``` to ``` nginx ``` or ``` apache2 ```:
 
 ```
 .
