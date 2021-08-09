@@ -21,17 +21,14 @@ This directory contains a docker-compose.yml that will allow you to quickly spin
 first you must config app for read source by change enviroment variable in ```docker-compose.yml``` to ``` nginx ``` or ``` apache2 ```:
 
 ```
-.
-.
-    app:
-        .
-        .
-	environment: 
-            - Log_Source=/var/log/[nginx/apache2]/access.log
-	.
-	.
-.
-.
+
+  app:
+        build: 
+            context: ./app
+            args: 
+                - LOGSOURCE=/var/log/[nginx/apache2]/access.log
+
+
 ```
 
 ### Starting
