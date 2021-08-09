@@ -31,6 +31,8 @@ services:
         volumes:
             - /var/log/nginx:/var/log/nginx
             - /var/log/apache2:/var/log/apache2
+        environment: 
+            - Log_Source=/var/log/nginx/access.log
         links: 
             - redis
         depends_on: 
