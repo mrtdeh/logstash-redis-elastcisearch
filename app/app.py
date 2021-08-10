@@ -10,7 +10,7 @@ import time
 print("start app")
 
 r = redis.StrictRedis(host='redis', port=6379, db=0)
-regex = '^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] “(\S+) (\S+)\s*(\S+)?\s*” (\d{3}) (\S+)'
+regex = '^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)\s*(\S+)?\s*" (\d{3}) (\S+)'
 fields = ['ip','ui','usr','@timestamp','method','rline','ver','status','size']
 
 wm = pyinotify.WatchManager()
