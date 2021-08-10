@@ -45,7 +45,8 @@ if you changed the source run ```docker-compose up -d --build``` to rebuild cont
 first, python app fetch real-time ```access.log``` file from the default path from ```/var/log/[nginx/apache2]``` and convert all rows to json records, then append this records one-by-one in the redis as a list of json,
 
 second, logstash run a input event for getting json's from redis and magic it,and out that to the elasticsearch for processing.
-In the future
 
-    - implement clustering for elasticsearch and redis.
+### In the future
+
+- implement clustering for elasticsearch and redis.
 
