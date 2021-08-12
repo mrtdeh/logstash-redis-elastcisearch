@@ -10,8 +10,11 @@ import time
 print("start app")
 
 r = redis.StrictRedis(host='redis', port=6379, db=0)
-regex = '^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)\s*(\S+)?\s*" (\d{3}) (\S+)'
-fields = ['ip','ui','usr','@timestamp','method','rline','ver','status','size']
+regex = '^(\S+) (\S+) (\S+) "(\S+) (\S+)\s*(\S+)?\s*" (\d{3}) (\S+) "(\S+)" "([\s\S]*)"'
+fields = ['ip','ui','usr','method','rline','ver','status','size', 'test','agent']
+
+# regex = '^(\S+) (\S+) (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)\s*(\S+)?\s*" (\d{3}) (\S+)'
+# fields = ['ip','ui','usr','@timestamp','method','rline','ver','status','size']
 
 wm = pyinotify.WatchManager()
 mask = pyinotify.IN_MODIFY
@@ -37,11 +40,13 @@ class EventHandler (pyinotify.ProcessEvent):
         def toJson(inp):
             m = re.match(regex,inp)
             if m:
+                # print("m : ",m)
                 data1 = m.groups(0)
                 data2 = dict(zip(fields,data1))
                 j = json.dumps(data2)
                 return j
         for i in range(0,x-1):
+            # print("toJson : ",toJson(data[i]))
             r.lpush("logstash",toJson(data[i]))
                
 

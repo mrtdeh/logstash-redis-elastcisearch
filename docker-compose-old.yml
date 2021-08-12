@@ -1,0 +1,66 @@
+version: '3'
+services:
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:7.14.0
+        container_name: kibana
+        ports:
+          - 5601:5601
+        environment:
+          ELASTICSEARCH_URL: http://elasticsearch:9200
+          ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+        networks:
+          - elastic
+   
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+        container_name: elasticsearch
+        environment:
+            - discovery.type=single-node
+        volumes:
+            - esdata:/usr/share/elasticsearch/data
+            - /etc/localtime:/etc/localtime:ro
+        ports:
+            - 9200:9200
+        networks:
+            - elastic
+
+    logstash:
+        image: docker.elastic.co/logstash/logstash:7.14.0
+        container_name: logstash
+        volumes:
+            - ./pipeline/:/usr/share/logstash/pipeline/
+            - /etc/localtime:/etc/localtime:ro
+        links:
+            - elasticsearch
+            - redis
+    redis:
+        image: redis
+        container_name: redis
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        ports:
+            - 6379:6379
+    
+    app:
+        build: 
+            context: ./app
+            # args: 
+            #     - LOGSOURCE=/var/log/nginx/access.log
+        container_name: apk_app
+        volumes:
+            - /var/log/nginx:/var/log/nginx
+            - /var/log/apache2:/var/log/apache2
+        links: 
+            - redis
+        depends_on: 
+            - redis
+
+volumes:
+    esdata:
+        driver: local
+
+        
+networks:
+    elastic:
+        driver: bridge
